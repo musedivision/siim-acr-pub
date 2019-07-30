@@ -1,0 +1,8 @@
+pip-tools
+jupyter
+matplotlib
+numpy
+pandas
+torch
+pydicom
+Pillow
