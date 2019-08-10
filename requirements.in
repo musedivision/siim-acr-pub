@@ -4,5 +4,7 @@ matplotlib
 numpy
 pandas
 torch
+torchvision
+jupyter-contrib-nbextensions==0.5.1
 pydicom
 Pillow
