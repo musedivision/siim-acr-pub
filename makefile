@@ -9,12 +9,17 @@ export PUBLIC_PORT := 8888
 
 export VERSION											:= 3
 export PROJECT_NAME								  := siim-acr
-export FUNCTION_NAME								:= pub 
+export FUNCTION_NAME								:= pub
 export NETWORK_NAME                 := fastai
 export DOCKER_REPO									:= musedivision
 export WORK_DIR											:=/home/ubuntu/
 export uname												:= $(shell uname)
 export Proc													:= CPU
+
+include .password
+ifeq ($(JUPYTER_PASSWORD_SHA),)
+	JUPYTER_PASSWORD_SHA := sha1:d099ba973173:e1a4b6b64952819109324498080df9f8c0715a25
+endif
 
 # detect if running on AWS GPU
 ifeq "$(uname)" "Linux"
@@ -39,10 +44,6 @@ up: build run
 
 venv:
 	source ${PROJECT_NAME}/bin/activate
-
-compose: ## compose
-	# launching docker containers
-	docker-compose up -d
 
 open: ## open
 	open http://localhost:8888
@@ -88,12 +89,4 @@ clean_images: ## clean_images
 
 bash: ## bash
 	docker exec -it $(PROJECT_NAME)-${FUNCTION_NAME} /bin/bash
-
-#######################################################################################################################
-#   DEPLOYMENT   -- maybe i could upload to docker hub    
-#
-#  Currently consists of automated docker build on push to master
-#  takes so long to install pip dependencies
-#                                                                                                   #
-########################################################################################################################
 
